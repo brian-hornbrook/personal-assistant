@@ -1,50 +1,45 @@
-# Give the class a name
-class PersonalAssistant:
-    def __init__(self):
-        self.contacts = {
-            'Ann': 'Marketing Coordinator',
-            'Chelsea': 'Software Developer',
-            'Nichole': 'Sales Representative',
-            'Max': 'Technical Writer'
-        }
-        self.todos = []
+# imports PersonalAssistant.py file
+from PersonalAssistant import PersonalAssistant
+import json
 
-    # Complete the get_contact function code
-    def get_contact(self, name):
-        if name:
-            return name + " is a " + self.contacts[name]
+# ADD CODE: open JSON file and pass data to PersonalAssistant class
+with open("todos.json", "r") as todos:
+    todo_list = json.load(todos)
+    assistant = PersonalAssistant(todo_list)
 
-        else:
-            return "no contact with the name " + name
+done = False
 
-    def add_todo(self, new_item):
-        self.todos.append(new_item)
+while not done:
+    user_command = input("""
+How can I help you?
 
-    def remove_todo(self, todo_item):
-        if todo_item in self.todos:
-            self.todos.remove(todo_item)
+    **** To-dos *****
+    1: Add a to-do
+    2: Remove a to-do
+    3: Get to-do list
 
-    def get_todos(self):
-        return self.todos
+    Select a number or type 'Exit' to quit: 
 
-    def get_birthday(self, name):
-        if (name == "Tomas Edison"):
-            return "Thomas's birthday is: 02/11/1847"
+    """)
+    # Add Todo
+    if user_command == "1":
+        user_input = input("Item to add to to-do list: ")
+        assistant.add_todo(user_input)
+    # Remove Todo
+    elif user_command == "2":
+        print(f"Your current todos: {assistant.get_todos()}")
+        user_input = input("Item to remove from to-do list: ")
+        print(f"\n {assistant.remove_todo(user_input)}")
+    # Get Todos
+    elif user_command == "3":
+        print("\nYour to-do list")
+        print(f"\n {assistant.get_todos()}")
+    elif user_command == "exit" or user_command == "Exit" or user_command == "EXIT":
+        done = True
+        print("\nGoodbye, see you soon!")
+    else:
+        print("\nNot a valid command.")
 
-        elif (name == "Henry Ford"):
-            return "Henry's birthday is: 07/30/1863"
-
-        elif (name == "Ada Lovelace"):
-            return "Ada's birthday is: 12/10/1815"
-
-        else:
-            return "can't find a birthday!"
-
-
-# create assistant
-assistant = PersonalAssistant()
-# display
-print(assistant.get_contact("Chelsea"))
-assistant.add_todo("Pick up groceries")
-print(assistant.get_todos())
-print(assistant.get_birthday("Tomas Edison"))
+# ADD CODE: write data to JSON file
+with open("todos.json", "w") as write_todos:
+    json.dump(assistant.get_todos(), write_todos)
