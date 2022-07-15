@@ -1,7 +1,8 @@
 # Give the class a name
 class PersonalAssistant:
-    def __init__(self, todos):
+    def __init__(self, todos, birthdays):
         self.todos = todos
+        self.birthdays = birthdays
 
     # Complete the get_contact function code
     def get_contact(self, name):
@@ -21,14 +22,27 @@ class PersonalAssistant:
     def get_todos(self):
         return self.todos
 
+    def get_birthdays(self):
+        return self.birthdays
+
     def get_birthday(self, name):
-        if name == "Tomas Edison":
-            return "Thomas's birthday is: 02/11/1847"
+        if name in self.birthdays:
+            return f"{name}'s birthday is on {self.birthdays}."
 
-        elif name == "Henry Ford":
-            return "Henry's birthday is: 07/30/1863"
+        else:
+            return "birthday could not be found"
 
-        elif name == "Ada Lovelace":
-            return "Ada's birthday is: 12/10/1815"
+    def add_birthday(self, name, date):
+        if name in self.birthdays:
+            return f"{name} already exists"
 
-        return "can't find a birthday!" + name
+        else:
+            new_birthday = self.birthdays[name] = date
+            print(f"added {name}'s Birthday")
+            return new_birthday
+
+    def remove_birthday(self, name):
+        person = name.capitalize()
+        if person in self.birthdays:
+            self.birthdays.pop(person)
+            print(f"removed {person}'s Birthday")
