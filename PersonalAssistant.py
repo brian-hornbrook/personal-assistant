@@ -26,7 +26,10 @@ class PersonalAssistant:
 
     def add_birthday(self, name, date):
         check_name = name.capitalize()
-        if not check_name in self.birthdays:
+        if check_name in self.birthdays:
+            return None
+
+        else:
             self.birthdays[check_name] = date
 
     def remove_birthday(self, name):
